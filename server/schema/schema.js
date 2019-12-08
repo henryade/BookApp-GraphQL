@@ -1,5 +1,4 @@
 import { GraphQLObjectType, GraphQLString, GraphQLSchema, GraphQLID, GraphQLInt, GraphQLList, GraphQLNonNull } from 'graphql';
-import _ from 'lodash';
 import models from '../models';
 
 const { Book, Author } = models;
@@ -28,7 +27,7 @@ const AuthorType = new GraphQLObjectType({
     books: {
       type: new GraphQLList(BookType),
       resolve({ id }, args) {
-        return Books.find({ authorId: id });
+        return Book.find({ authorId: id });
       }
     }
   })
@@ -43,7 +42,7 @@ const RootQuery = new GraphQLObjectType({
       args: { id: { type: GraphQLID } },
       resolve(parent, { id }) {
         // get data from db or other source
-        return Book.findById({ id });
+        return Book.findById(id);
       }
     },
     author: {
@@ -51,7 +50,7 @@ const RootQuery = new GraphQLObjectType({
       args: { id: { type: GraphQLID } },
       resolve(parent, { id }) {
         // get data from db or other source
-        return Author.findById({ id });
+        return Author.findById(id);
       }
     },
     books: {
